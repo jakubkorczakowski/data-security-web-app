@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <title>Bib-maker</title>
+    <meta charset="utf-8">
+    <link href="/styles/style.css" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Crimson+Pro&subset=latin,latin-ext' rel='stylesheet'
+          type='text/css'>
+</head>
+<body>
+<header>
+    <h2>Bib-maker</h2>
+</header>
+<nav>
+    <ul>
+        <li><a href="{{ url_for('index') }}">Strona główna</a></li>
+        <li><a href="{{ url_for('login') }}">Zaloguj się</a></li>
+        <li><a href="{{ url_for('register') }}">Zarejestruj się</a></li>
+    </ul>
+</nav>
+<section>
+    <img src="/resources/shr.jpg" alt="Share" width="550" height="450">
+    <h3>Wyszukaj i zapisz</h3>
+    <p>Przeszukuj swoje ulubione naukowe wyszukiwarki (w aplikacji i za pomocą naszych przydatnych rozszerzeń
+        przeglądarki ) i ciesz się pobieraniem jednym kliknięciem, aby szybko dodawać odniesienia i pełnotekstowe pliki
+        PDF do swojej biblioteki.
+        Sprawdź nasz spersonalizowany silnik rekomendacji i powiązane kanały artykułów, aby upewnić się, że już nigdy
+        nie przegapisz ważnego artykułu.</p>
+</section>
+<article>
+    <h3>Czas być bardziej zorganizowanym</h3>
+    <p>Pożegnaj się z bałaganem na pulpicie i folderami niesklasyfikowanych plików PDF.
+
+        Dokumenty automatycznie identyfikują i dopasowują importowane artykuły, nie tylko z kompletnymi metadanymi, ale
+        także z dostępnymi danymi uzupełniającymi, cytatami i pełnym tekstem (jeśli są dostępne).
+
+        Co więcej? Użyj tagów, etykiet, ocen, inteligentnych kolekcji i folderów zegarka, aby utrzymać porządek na
+        drodze.
+    </p>
+</article>
+<article>
+    <h3>Cytuj szybciej dzięki Bib-maker</h3>
+    <p>
+        Nasi użytkownicy UWIELBIAJĄ Bib-maker, ponieważ jest szybki, niezawodny i co najważniejsze - łatwy w użyciu! Po
+        prostu dodaj dodatek Bib-maker do Word 2016, a będziesz mieć dostęp do całej biblioteki bezpośrednio z dokumentu
+        Word.
+
+        Wyszukaj odniesienia w swoich kolekcjach osobistych lub udostępnionych lub skorzystaj z naszej wbudowanej
+        wyszukiwarki.
+        APA, MLA, Chicago, IEEE, Nature ... wybieraj spośród ponad 9000 stylów cytowania wbudowanych w Bib-maker.
+        Potrzebujesz czegoś konkretnego? Dostosuj swój własny styl!
+        Bib-maker został stworzony do współpracy, więc po prostu prześlij swój dokument innym użytkownikom aplikacji
+        Bib-maker, a oni będą mogli odebrać je tam, gdzie skończyłeś!</p>
+</article>
+<article>
+    <h3>Plany akademickie</h3>
+    <p>Wprowadzamy nowoczesne i elastyczne pakiety dostępu do naszej aplikacji.</p>
+    <table class="caption-bottom">
+        <caption> Plans</caption>
+        <thead>
+        <tr>
+            <td> Typ planu</td>
+            <td> Plany dla małej grupy / laboratorium</td>
+            <td> Plany licencyjne działów i organizacji</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Współpraca</td>
+            <td>Podstawowa współpraca</td>
+            <td>Zaawansowana współpraca</td>
+        </tr>
+        <tr>
+            <td>Synchronizacja</td>
+            <td>Synchronizacja między urządzeniami</td>
+            <td>Synchronizacja między urządzeniami</td>
+        </tr>
+        <tr>
+            <td>Integracja z Microsoft Word</td>
+            <td>Bib-maker dla Word</td>
+            <td>Bib-maker dla Word</td>
+        </tr>
+        <tr>
+            <td>Wyświetlanie plików PDF</td>
+            <td>Ulepszone przeglądanie plików PDF</td>
+            <td>Ulepszone przeglądanie plików PDF</td>
+        </tr>
+        <tr>
+            <td>Adnotacja PDF</td>
+            <td>Narzędzia do adnotacji PDF</td>
+            <td>Narzędzia do adnotacji PDF</td>
+        </tr>
+        </tbody>
+    </table>
+
+</article>
+
+<footer>
+    <p class="footer-inline left">&copy; 2019 Jakub Korczakowski</p>
+    <p class="footer-inline right">proudly powered by <img
+            src="https://icons.iconarchive.com/icons/bokehlicia/captiva/16/vim-icon.png" alt="Vim icon" title="Vim"
+            class="footer-img"/></p>
+</footer>
+</body>
+</html>

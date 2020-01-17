@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <title>Bib-maker</title>
+    <meta charset="utf-8">
+    <link href="/styles/style.css" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Crimson+Pro&subset=latin,latin-ext' rel='stylesheet'
+          type='text/css'>
+    <script src="/scripts/registration.js"></script>
+</head>
+<body>
+<header>
+    <h2>Bib-maker</h2>
+</header>
+<nav>
+    <ul>
+        <li><a href="{{ url_for('index') }}">Strona główna</a></li>
+        <li><a href="{{ url_for('login') }}">Zaloguj się</a></li>
+        <li><a href="{{ url_for('register') }}">Zarejestruj się</a></li>
+    </ul>
+</nav>
+<section>
+
+    <h3>Zarejestruj się</h3>
+
+    <section class="error-message-flash">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        {% for message in messages %}
+        {{ message }}
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+    </section>
+
+    <form id="registration-form" class="registration-form" action="/register" method="post"
+          enctype="multipart/form-data">
+
+        <label for="firstname" class="required">Imię</label>
+        <input id="firstname" type="text" name="firstname"/>
+        <br/>
+        <br/>
+
+        <label for="lastname" class="required">Nazwisko</label>
+        <input id="lastname" type="text" name="lastname"/>
+        <br/>
+        <br/>
+
+        <label for="birthdate" class="required">Data urodzenia</label>
+        <input id="birthdate" type="text" name="birthdate" placeholder="YYYY-MM-DD"/>
+        <br/>
+        <br/>
+
+        <label for="pesel" class="required">PESEL</label>
+        <input id="pesel" type="text" name="pesel"/>
+        <br/>
+        <br/>
+
+        <label for="sex" class="required">Płeć</label>
+        <input id="sex" type="text" name="sex"/>
+        <br/>
+        <br/>
+
+        <label for="username" class="required">Login</label>
+        <input id="username" type="text" name="username"/>
+        <br/>
+        <br/>
+
+        <label for="password" class="required">Hasło</label>
+        <input id="password" type="password" name="password"/>
+        <br/>
+        <br/>
+
+        <label for="repeat-password" class="required">Powtórz hasło</label>
+        <input id="repeat-password" type="password" name="repeat-password"/>
+        <br/>
+        <br/>
+
+        <label for="photo" class="required">Zdjęcie</label>
+        <input id="photo" type="file" name="photo">
+        <br/>
+        <br/>
+
+        <input id="button-reg-form" type="submit" value="Rejestruj"/>
+
+    </form>
+
+</section>
+<footer>
+    <p class="footer-inline left">&copy; 2019 Jakub Korczakowski</p>
+    <p class="footer-inline right">proudly powered by <img
+            src="https://icons.iconarchive.com/icons/bokehlicia/captiva/16/vim-icon.png" alt="Vim icon" title="Vim"
+            class="footer-img"/></p>
+</footer>
+</body>
+</html>

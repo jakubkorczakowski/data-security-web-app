@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <title>Bib-maker FILES</title>
+    <meta charset="utf-8">
+    <link href="/styles/style.css" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Crimson+Pro&subset=latin,latin-ext' rel='stylesheet'
+          type='text/css'>
+</head>
+<header>
+    <h2>Bib-maker</h2>
+</header>
+<nav>
+    <ul>
+        <li><a href="{{ url_for('index') }}">Strona główna</a></li>
+        <li><a href="{{ url_for('show_files') }}">Lista plików</a></li>
+        <li><a href="{{ url_for('add_files') }}">Dodawanie plików</a></li>
+    </ul>
+</nav>
+<body>
+<header>
+    <h3>Lista wszystkich Twoich plików.</h3>
+    Ilość Twoich plików: {{ my_files_number }}.
+</header>
+<section>
+    <ul>
+        {% for file_key in my_files.keys() %}
+        <li><a href="{{ url_for('download_file', file_hash=file_key) }}"> {{ my_files[file_key] }} </a>
+            <br>
+            {{ my_files_dates[file_key] }}
+            <br>
+            <br>
+        </li>
+        {% endfor %}
+    </ul>
+</section>
+<footer>
+    <p class="footer-inline left">&copy; 2019 Jakub Korczakowski</p>
+    <p class="footer-inline right">proudly powered by <img
+            src="https://icons.iconarchive.com/icons/bokehlicia/captiva/16/vim-icon.png" alt="Vim icon" title="Vim"
+            class="footer-img"/></p>
+</footer>
+</body>
+</html>

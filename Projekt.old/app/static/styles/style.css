@@ -1,0 +1,146 @@
+body {
+    max-width: 1024px;
+    margin-left: auto;
+    margin-right: auto;
+    font-family: 'Crimson Pro', sans-serif !important;
+    padding-bottom: 46px; /* the same value as footer height */
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    background-color: #b3daff;
+}
+
+nav ul li {
+    display: inline;
+}
+
+nav ul li a {
+    display: inline-block;
+    width: 140px;
+    text-align: center;
+    text-decoration: none;
+    color: #195dcc;
+}
+
+nav ul li a:hover {
+    background-color: #70bfe0;
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    background-color: #b3daff;
+    max-width: inherit;
+    width: 100%;
+    height: 46px;
+    font-family: 'Crimson Pro', sans-serif;
+    font-size: 15px;
+}
+
+.footer-inline {
+    display: inline-block;
+    width: 48%;
+    padding-left: 1%;
+}
+
+.left {
+    text-align: left;
+}
+
+.right {
+    text-align: right;
+}
+
+.footer-img {
+    vertical-align: middle;
+}
+
+table {
+    margin-left: auto;
+    margin-right: auto;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 15px;
+    text-align: left;
+}
+
+thead {
+    font-weight: bold;
+}
+
+table, th, td {
+    border: 2px solid #195dcc;
+}
+
+.caption-bottom {
+    caption-side: bottom;
+}
+
+td:nth-child(1) {
+    text-align: right;
+}
+
+td:nth-child(odd) {
+    background-color: rgba(179, 218, 255, 0.51)
+}
+
+td:nth-child(even) {
+    background-color: rgba(159, 191, 227, 0.35);
+}
+
+img {
+    float: right;
+}
+
+.registration-form, .login-form {
+    width: 700px;
+    /*margin-left: auto;*/
+    margin-right: auto;
+}
+
+.registration-form label, .login-form label {
+    float: left;
+    width: 150px;
+    text-align: right;
+}
+
+.registration-form label::after, .login-form label::after {
+    content: ":";
+}
+
+.registration-form input, .login-form input {
+    float: left;
+    width: 150px;
+}
+
+#button-reg-form, #button-login-form {
+    float: none;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100px;
+}
+
+label.required::after {
+    color: red;
+    content: "*:";
+}
+
+.error-message {
+    padding-left: 15px;
+    display: inline;
+    color: red;
+}
+
+.error-message-flash {
+    color: red;
+}
+
+
+
+
