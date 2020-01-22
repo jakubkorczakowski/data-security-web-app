@@ -11,10 +11,10 @@ class NoteService:
     def __init__(self):
         self.note_repo = NoteRepository()
 
-    def add_note(self, note, username, allowed_users, title):
+    def add_note(self, username, note_req):
 
         app.logger.debug("Adding note...")
-        note_id = self.note_repo.save(note, username, allowed_users, title)
+        note_id = self.note_repo.save(username, note_req)
         app.logger.debug("Added note (id: {0})".format(note_id))
         return note_id
 

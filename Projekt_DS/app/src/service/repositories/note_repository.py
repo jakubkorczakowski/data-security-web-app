@@ -11,8 +11,9 @@ app = Flask(__name__)
 NOTE_COUNTER = "note_counter"
 NOTE_ID_PREFIX = "note_"
 
-DIR_PATH = "notes/"
-NOT_EXISTING_BIBLIOGRAPHY_ID = 0
+# DIR_PATH = "notes/"
+# NOT_EXISTING_BIBLIOGRAPHY_ID = 0
+ALL_USERS = '__all__'
 
 
 class NoteRepository:
@@ -22,18 +23,18 @@ class NoteRepository:
         if self.db.get(NOTE_COUNTER) is None:
             self.db.set(NOTE_COUNTER, 0)
 
-    def save(self, note_to_save, username, allowed_users, title):
-        app.logger.debug("Saving new note: {0}.".format(note_to_save))
+    def save(self, username, note_req):
+        app.logger.debug("Saving new note: {0}.".format(note_req))
 
-        if (len(note_to_save) == 0):
-            raise EmptyNoteNameException
+        # if (len(note_req.note) == 0):
+        #     raise EmptyNoteNameException
 
         id = self.db.incr(NOTE_COUNTER)
 
         notename_prefix = NOTE_ID_PREFIX + str(id)
         date = datetime.today().strftime('%d-%m-%Y %H:%M:%S')
 
-        note = Note(id, note_to_save, date, username, allowed_users, title)
+        note = Note(id, note_req.note, date, username, note_req.allowed_users, note_req.title)
 
         note_id = NOTE_ID_PREFIX + str(note.id)
         note_json = json.dumps(note.__dict__)
@@ -123,7 +124,7 @@ class NoteRepository:
 
             note_json = self.db.get(note_id)
             note = Note.from_json(json.loads(note_json))
-            if note.username == username:
+            if (note.username == username) or (ALL_USERS in note.allowed_users) or (username in note.allowed_users):
                 notes.append(note)
 
             if len(notes) >= limit:

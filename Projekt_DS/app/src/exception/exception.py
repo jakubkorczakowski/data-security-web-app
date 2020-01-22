@@ -21,5 +21,8 @@ class NoteNotFoundByIdException(Exception):
 class EmptyNoteNameException(Exception):
     pass
 
+class InvalidFormDataException(Exception):
+    pass
+
 
 

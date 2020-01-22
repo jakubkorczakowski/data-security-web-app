@@ -4,10 +4,12 @@ document.addEventListener('DOMContentLoaded', function (event) {
     const POST = "POST";
 
     let loginInput = document.getElementById("username");
+    let passwordInput = document.getElementById("password");
     let loginForm = document.getElementById("login-form");
 
 
     loginInput.addEventListener("change", checkLoginAvailability);
+    passwordInput.addEventListener("change", checkPasswordValidity);
 
     loginForm.addEventListener("submit", function (event) {
         let reqiuredFields = document.querySelectorAll('#app-form .required').length;
@@ -19,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
             }
         }
 
-        if ((n != reqiuredFields) || (document.getElementById("login_taken_error_message") != null)) {
+        if ((n != reqiuredFields) || (document.getElementById("login_taken_error_message") != null) || !(checkPasswordValidity())) {
             event.preventDefault();
         }
 
@@ -58,5 +60,22 @@ document.addEventListener('DOMContentLoaded', function (event) {
             });
         }
     }
+
+    function checkPasswordValidity() {
+        let passwordInput = document.getElementById("password");
+        let passwordPattern = /^.{8,40}$/;
+        if (!(passwordPattern.test(passwordInput.value))) {
+            if (document.getElementById("wrong_password_error_message") != null) {
+                document.getElementById("wrong_password_error_message").remove();
+            }
+            passwordInput.insertAdjacentHTML("afterend", "<div id='wrong_password_error_message' class='text-danger'>   Hasło musi mieć co najmniej 8 znaków. </div>")
+            return false;
+        }
+        if (document.getElementById("wrong_password_error_message") != null) {
+            document.getElementById("wrong_password_error_message").remove();
+        }
+        return true;
+    }
+
 
 });

@@ -1,20 +1,24 @@
-from flask import Flask, request, send_file, render_template, abort, make_response, flash
+from flask import Flask, request, send_file, render_template, abort, make_response, flash, jsonify
 from flask_restplus import Api, Resource, fields
 from src.dto.request.user_request import UserRequest
+from src.dto.request.note_request import NoteRequest
 from src.exception.exception import UserPasswordIsInvalidException, UserAlreadyExistsException, \
-    NoteAlreadyExistsException
+    NoteAlreadyExistsException, UserNotFoundByUsernameException, InvalidFormDataException
 from src.service.user_service import UserService
 from src.service.note_service import NoteService
+from src.validation.validator import Validator
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, set_access_cookies, get_jwt_identity
 from flask_cors import CORS
 import os
 import requests
 
-# TODO | Dodać wyświetlanie notatek udostępnionym użytkowikowi
-# TODO | Dodać walidację notatki + walidację wszystkiego po stronie serwera
-# TODO | Dodać salt (ewentualnie kilkukrotne hashowanie)
+# TODO | !!!! Zmiana hasła
+# TODO - ewnetualnie | Dodać udostępnianie notatek po dodaniu
+# + Dodać walidację notatki po stronie przeglądarki
+# + walidację wszystkiego po stronie serwera
+# TODO | !!!! Dodać salt (ewentualnie kilkukrotne hashowanie)
 # TODO | Opóźnienie przy loginie
-# TODO | Ukrycie REDISA
+# TODO | !!!! Ukrycie REDISA
 # TODO | Sprawdzić notatki Piotrka
 
 app = Flask(__name__, static_url_path="")
@@ -43,6 +47,7 @@ jwt = JWTManager(app)
 
 user_service = UserService()
 note_service = NoteService()
+validator = Validator()
 
 
 @jwt.unauthorized_loader
@@ -61,16 +66,20 @@ def index():
 def register():
     if request.method == POST:
         try:
-            form_data = request.form.to_dict()
-            user_req = UserRequest(form_data)
+            # form_data = request.form.to_dict()
+            user_req = UserRequest(request)
+            repeted_password = request.form['repeat-password']
+            validator.validate_register_form_data(user_req, repeted_password)
             saved_user_id = user_service.add_user(user_req)
-
             response = make_response(render_template('index.html'))
 
             return response
 
         except UserAlreadyExistsException as e:
             flash("Użytkownik już istnieje.")
+            return render_template('registration.html')
+        except InvalidFormDataException as e:
+            flash("Podano błędne dane w formularzu.")
             return render_template('registration.html')
 
     return render_template('registration.html')
@@ -80,10 +89,12 @@ def register():
 def login():
     if request.method == POST:
         try:
-            user = user_service.get_user_by_username_and_password(request.form['username'],
-                                                                  request.form['password'])
+            username = request.form['username']
+            password = request.form['password']
+            validator.validate_login_form_data(username, password)
+            user = user_service.get_user_by_username_and_password(username, password)
 
-            access_token = create_access_token(identity=request.form['username'])
+            access_token = create_access_token(identity=username)
             resp = make_response(render_template('index.html'))
             set_access_cookies(resp, access_token, max_age=TOKEN_EXPIRES_IN_SECONDS)
             return resp
@@ -92,6 +103,12 @@ def login():
             return render_template('login.html')
         except KeyError as e:
             flash('Nie ma takiego użytkownika')
+            return render_template('login.html')
+        except UserNotFoundByUsernameException as e:
+            flash('Nie ma takiego użytkownika')
+            return render_template('login.html')
+        except InvalidFormDataException as e:
+            flash("Podano błędne dane w formularzu.")
             return render_template('login.html')
 
     return render_template('login.html')
@@ -119,12 +136,16 @@ def refresh_token():
 @app.route('/user/<string:username>', methods=[GET])
 def check_if_user_exists(username):
     try:
-        user_service.get_user_by_username(username)
-        return {"message": "User with given username exists.", "status": "200"}
+        user = user_service.get_user_by_username(username)
+        message = {"status": 200, "message": "Użytkownik z podanym loginem istnieje."}
+        resp = jsonify(message)
+        resp.status_code = 200
     except Exception as e:
-        abort(400)
+        message = {"status": 400, "message": "Użytkownik z podanym loginem nie istnieje."}
+        resp = jsonify(message)
+        resp.status_code = 400
 
-    abort(400)
+    return resp
 
 
 # =================================== NOTATKI =========================================
@@ -144,7 +165,7 @@ def show_notes():
 
     resp_json = paginated_notes_response.get_json(request.base_url)
 
-    response = make_response(render_template("notes_list.html", resp_json=resp_json))
+    response = make_response(render_template("notes_list.html", resp_json=resp_json, username=username))
     access_token = create_access_token(identity=username)
     set_access_cookies(response, access_token, max_age=TOKEN_EXPIRES_IN_SECONDS)
 
@@ -165,21 +186,18 @@ def add_note():
 
     if (request.method == POST):
         try:
-            title = request.form["title"]
-            note = request.form['note']
-            allowed_users_string = request.form['allowed_users']
-            allowed_users = allowed_users_string.split(' ')
-            if request.form.get('allow_all_users'):
-                allowed_users.append('__all__')
-            saved_note_id = note_service.add_note(note, username, allowed_users, title)
+            validator.validate_note_form_data(request.form["allowed_users"], request.form["title"])
+            note_req = NoteRequest(request)
+            saved_note_id = note_service.add_note(username, note_req)
             return show_notes()
         except KeyError as e:
-            app.logger.debug('ke')
+            flash('Nie udało się zapisać notatki.')
             response = make_response(render_template("add_note.html"))
             set_access_cookies(response, access_token, max_age=TOKEN_EXPIRES_IN_SECONDS)
             return response
-        except NoteAlreadyExistsException as e:
-            app.logger.debug('faee')
+        except InvalidFormDataException as e:
+            app.logger.debug(e)
+            flash('Podano błędne dane w formularzu.')
             response = make_response(render_template("add_note.html"))
             set_access_cookies(response, access_token, max_age=TOKEN_EXPIRES_IN_SECONDS)
             return response
@@ -199,7 +217,7 @@ def delete_note(id):
         username = get_jwt_identity()
         note_id = note_service.del_note_by_id(id, username)
     except Exception as e:
-        abort(404)
+        abort(403)
 
     return show_notes()
 
@@ -241,5 +259,3 @@ def page_forbidden(error):
 @app.errorhandler(404)
 def page_not_found(error):
     return render_template("errors/404.html", error=error)
-
-

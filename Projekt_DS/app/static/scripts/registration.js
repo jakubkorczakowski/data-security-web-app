@@ -109,12 +109,12 @@ document.addEventListener('DOMContentLoaded', function (event) {
 
     function checkPasswordValidity() {
         let passwordInput = document.getElementById("password");
-        let passwordPattern = /^[A-Za-z]{8,}$/;
+        let passwordPattern = /^.{8,40}$/;
         if (!(passwordPattern.test(passwordInput.value))) {
             if (document.getElementById("wrong_password_error_message") != null) {
                 document.getElementById("wrong_password_error_message").remove();
             }
-            passwordInput.insertAdjacentHTML("afterend", "<div id='wrong_password_error_message' class='text-danger'>   Hasło musi mieć co najmniej 8 liter. </div>")
+            passwordInput.insertAdjacentHTML("afterend", "<div id='wrong_password_error_message' class='text-danger'>   Hasło musi mieć co najmniej 8 znaków. </div>")
             return false;
         }
         if (document.getElementById("wrong_password_error_message") != null) {
