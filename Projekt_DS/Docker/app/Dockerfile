@@ -8,4 +8,4 @@ RUN pip install -r requirements.txt
 RUN apk add --no-cache gcc musl-dev linux-headers openssl-dev libffi-dev
 RUN pip install pyopenssl
 RUN pip install flask-jwt-extended
-CMD ["flask", "run", "--cert", "adhoc"]
+CMD ["flask", "run", "--cert=./certs/cert.pem", "--key=./certs/key.pem"]
