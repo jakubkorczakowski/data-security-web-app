@@ -6,6 +6,7 @@ import hashlib
 
 app = Flask(__name__)
 
+HASH_ITERATIONS = 100000
 
 class UserService:
 
@@ -41,12 +42,25 @@ class UserService:
     def get_user_by_username_and_password(self, user_username_to_check, user_password_to_check):
         app.logger.debug("Checking user with username: {0} password.".format(user_username_to_check))
         user = self.get_user_by_username(user_username_to_check)
+        salt = self.user_repo.find_salt_by_username(user_username_to_check)
 
         password_to_check = user_password_to_check.encode("utf-8")
-        password_to_check_hash = hashlib.sha512(password_to_check).hexdigest()
+        salt = bytes.fromhex(salt)
+        password_to_check_hash = hashlib.pbkdf2_hmac('sha512', bytes(password_to_check), salt, HASH_ITERATIONS).hex()
 
         if password_to_check_hash != user.password_hash:
             raise UserPasswordIsInvalidException("User: {0} password is invalid.".format(user_username_to_check))
 
         app.logger.debug("Checked user with username: {0} password.".format(user_username_to_check))
         return user
+
+    def update_user(self, username, new_password):
+        app.logger.debug("Updating user...")
+        user = self.get_user_by_username(username)
+
+        if user is None:
+            raise UserNotFoundByUsernameException("Not found user by username: {0}".format(username))
+
+        updated_user_username = self.user_repo.update(user, new_password)
+        app.logger.debug("Updated user by username: {0}".format(updated_user_username))
+        return updated_user_username

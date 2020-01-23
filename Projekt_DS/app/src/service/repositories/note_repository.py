@@ -2,6 +2,7 @@ from flask import Flask
 import redis
 import json
 from datetime import datetime
+import os
 
 from ...service.entity.note import Note
 from ...exception.exception import NoteAlreadyExistsException, EmptyNoteNameException
@@ -10,24 +11,20 @@ app = Flask(__name__)
 
 NOTE_COUNTER = "note_counter"
 NOTE_ID_PREFIX = "note_"
+FLASK_SECRET = "FLASK_SECRET"
 
-# DIR_PATH = "notes/"
-# NOT_EXISTING_BIBLIOGRAPHY_ID = 0
 ALL_USERS = '__all__'
 
 
 class NoteRepository:
 
     def __init__(self):
-        self.db = redis.Redis(host="redis", port=6379, decode_responses=True)
+        self.db = redis.Redis(host="redis", port=6379, decode_responses=True, password=os.environ.get(FLASK_SECRET))
         if self.db.get(NOTE_COUNTER) is None:
             self.db.set(NOTE_COUNTER, 0)
 
     def save(self, username, note_req):
         app.logger.debug("Saving new note: {0}.".format(note_req))
-
-        # if (len(note_req.note) == 0):
-        #     raise EmptyNoteNameException
 
         id = self.db.incr(NOTE_COUNTER)
 

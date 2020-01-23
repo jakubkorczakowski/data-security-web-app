@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
     lastnameInput.addEventListener("change", checkLastnameValidity);
     passwordInput.addEventListener("change", checkPasswordValidity);
     repeatPasswordInput.addEventListener("change", checkRepeatPasswordValidity);
+    passwordInput.addEventListener("change", checkPasswordEntropy);
 
     registrationForm.addEventListener("submit", function (event) {
         let reqiuredFields = document.querySelectorAll('#registration-form .required').length;
@@ -31,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
         }
 
         if (((n != reqiuredFields) || (document.getElementById("login_taken_error_message") != null))
-            || !(checkFirstnameValidity() && checkLastnameValidity() && checkPasswordValidity() && checkRepeatPasswordValidity())) {
+            || !(checkFirstnameValidity() && checkLastnameValidity() && checkPasswordValidity() && checkRepeatPasswordValidity() && checkPasswordEntropy())) {
             event.preventDefault();
 
         }
@@ -137,6 +138,67 @@ document.addEventListener('DOMContentLoaded', function (event) {
             document.getElementById("wrong_repeat_password_error_message").remove();
         }
         return true;
+    }
+
+    function checkPasswordEntropy() {
+        let passwordInput = document.getElementById("password");
+        let entropy = get_entropy(passwordInput.value);
+        if (entropy < 50) {
+            if (document.getElementById("wrong_password_entropy_message") != null) {
+                document.getElementById("wrong_password_entropy_message").remove();
+            }
+            passwordInput.insertAdjacentHTML("afterend", "<div id='wrong_password_entropy_message' class='text-danger'>   Hasło jest za słabe. </div>")
+            return false;
+        } else if (entropy > 50 && entropy < 100) {
+            if (document.getElementById("wrong_password_entropy_message") != null) {
+                document.getElementById("wrong_password_entropy_message").remove();
+            }
+            passwordInput.insertAdjacentHTML("afterend", "<div id='wrong_password_entropy_message'>   Hasło jest średnie. </div>")
+            return true;
+        } else if (entropy > 100) {
+            if (document.getElementById("wrong_password_entropy_message") != null) {
+                document.getElementById("wrong_password_entropy_message").remove();
+            }
+            passwordInput.insertAdjacentHTML("afterend", "<div id='wrong_password_entropy_message', class='text-success'>   Hasło jest mocne. </div>")
+            return true;
+        }
+        if (document.getElementById("wrong_password_entropy_message") != null) {
+            document.getElementById("wrong_password_entropy_message").remove();
+        }
+        return true;
+    }
+
+    function get_entropy(password) {
+        alfabet_len = 26;
+
+        big_letters_added = false;
+        signs_added = false;
+        sec_signs_added = false;
+        numbers_added = false;
+
+        for (c = 0; c < password.length; c++) {
+            if ((big_letters_added == false) && (password.charCodeAt(c) >= "A".charCodeAt(0) && (password.charCodeAt(c) <= "Z".charCodeAt(0)))) {
+                alfabet_len += 26;
+                big_letters_added = true
+            }
+            if ((signs_added == false) && (password.charCodeAt(c) >= " ".charCodeAt(0) && (password.charCodeAt(c) <= "/".charCodeAt(0)))) {
+                alfabet_len += 16;
+                signs_added = true
+            }
+            if ((sec_signs_added == false) && (password.charCodeAt(c) >= ":".charCodeAt(0) && (password.charCodeAt(c) <= "@".charCodeAt(0)))) {
+                alfabet_len += 7;
+                sec_signs_added = true
+            }
+            if ((numbers_added == false) && (password.charCodeAt(c) >= "0".charCodeAt(0) && (password.charCodeAt(c) <= "9".charCodeAt(0)))) {
+                alfabet_len += 10;
+                numbers_added = true
+            }
+        }
+
+        entropy = password.length * Math.log2(alfabet_len);
+
+        return entropy
+
     }
 
 });

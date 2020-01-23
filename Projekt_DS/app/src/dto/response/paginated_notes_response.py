@@ -7,6 +7,7 @@ class PaginatedNotesResponse:
         self.notes = []
 
         for note in notes:
+            note.allowed_users = ''
             self.notes.append(note.__dict__)
 
         self.start = start

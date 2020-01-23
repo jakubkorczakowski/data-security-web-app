@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
     function checkAllowedUsersValidity() {
         let allowedUsersInput = document.getElementById("allowed_users");
         let allowedUsersPattern = /^[a-z]{3,12}( [a-z]{3,12}(?= ))*( [a-z]{3,12} {0,1})*$/;
-        if (!(allowedUsersPattern.test(allowedUsersInput.value))) {
+        if (!(allowedUsersPattern.test(allowedUsersInput.value) || (allowedUsersInput.value == ''))) {
             if (document.getElementById("wrong_allowed_users_error_message") != null) {
                 document.getElementById("wrong_allowed_users_error_message").remove();
             }

@@ -24,5 +24,5 @@ class EmptyNoteNameException(Exception):
 class InvalidFormDataException(Exception):
     pass
 
-
-
+class LowPasswordEntropyException(Exception):
+    pass
