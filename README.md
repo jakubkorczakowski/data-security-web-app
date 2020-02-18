@@ -31,9 +31,9 @@ Aplikacji zapewnia wysokie bezpieczeństwo danych. Dane wejściowe są restrykcy
 
 Aplikację można uruchomić za pomocą **Dockera**.
 
-Przed uruchomieniem należy utworzyć plik **.env** w katalogu **DSApp**. W pliku należu zdefiniować zmienną **FLASK_SECRET**.
+Przed uruchomieniem należy utworzyć plik **.env** w katalogu głównym repozytorium. W pliku należu zdefiniować zmienną **FLASK_SECRET**.
 
-Projekt można uruchomić używając w katalogu **DSApp** polecenia:
+Projekt można uruchomić używając w katalogu głównym repozytorium polecenia:
 
 ```bash
 docker-compose up --build
