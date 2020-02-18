@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-    <title>Bib-maker</title>
+    <title>Notes</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
@@ -14,7 +14,6 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
             integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
             crossorigin="anonymous"></script>
-    <script src="/scripts/login.js"></script>
     <link href='https://fonts.googleapis.com/css?family=Crimson+Pro&subset=latin,latin-ext' rel='stylesheet'
           type='text/css'>
     <link href="/styles/style.css" rel="stylesheet" type="text/css">
@@ -73,43 +72,41 @@
 
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-sm-12 col-md-6 col-lg-4 text-center">
-                <h3>Zaloguj się</h3>
+            <div class="col-12 text-left">
+                <h3>Lista wszystkich Twoich notatek.</h3>
+                Liczba Twoich wszystkich notatek: {{ resp_json["count"] }}.
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <br>
             </div>
         </div>
         <div class="row justify-content-center">
-            <div class="col-sm-12 col-md-6 col-lg-4">
-                <form id="login-form" action="{{ url_for('login') }}" method="post"
-                      enctype="multipart/form-data">
-
-                    <div class="form-group">
-                        <label for="username">Login</label>
-                        <input id="username" class="form-control required" type="text" name="username"/>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="password">Hasło</label>
-                        <input id="password" class="form-control required" type="password" name="password"/>
-                    </div>
-
-                    <div class="form-group">
-                        <section class="text-danger">
-                            {% with messages = get_flashed_messages() %}
-                                {% if messages %}
-                                    {% for message in messages %}
-                                        <div class="alert alert-danger" role="alert">
-                                            {{ message }}
-                                        </div>
-                                    {% endfor %}
-                                {% endif %}
-                            {% endwith %}
-                        </section>
-                    </div>
-
-
-                    <button id="button-login-form" type="submit" class="btn btn-secondary btn-block">Zaloguj</button>
-
-                </form>
+            <div class="col-12">
+                <section>
+                    <ul class="list-group">
+                        {% for note in resp_json["notes"] %}
+                            <li class="list-group-item list-group-item-action">
+                                <div class="row">
+                                    <div class="col-10 text-left text-break">
+                                        <a href="{{ url_for('show_note', id=note['id']) }}"> {{ note["title"] }} </a>
+                                    </div>
+                                    <div class="col-2 text-right">
+                                        {% if note['username'] is eq(username) %}
+                                            <a href={{ url_for('delete_note', id=note['id']) }}> Usuń </a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 text-left">
+                                        {{ note["date"] }}
+                                    </div>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </section>
             </div>
         </div>
 
@@ -140,4 +137,3 @@
 
 </body>
 </html>
-

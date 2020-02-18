@@ -8,6 +8,7 @@ app = Flask(__name__)
 
 HASH_ITERATIONS = 100000
 
+
 class UserService:
 
     def __init__(self):

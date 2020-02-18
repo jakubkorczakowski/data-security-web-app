@@ -74,6 +74,3 @@ class Validator():
             raise LowPasswordEntropyException
 
         return entropy
-
-
-

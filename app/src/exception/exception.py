@@ -21,8 +21,10 @@ class NoteNotFoundByIdException(Exception):
 class EmptyNoteNameException(Exception):
     pass
 
+
 class InvalidFormDataException(Exception):
     pass
+
 
 class LowPasswordEntropyException(Exception):
     pass

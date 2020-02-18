@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-    <title>Bib-maker</title>
+    <title>Notes</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
@@ -14,7 +14,6 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
             integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
             crossorigin="anonymous"></script>
-    <script src="/scripts/notes.js"></script>
     <link href='https://fonts.googleapis.com/css?family=Crimson+Pro&subset=latin,latin-ext' rel='stylesheet'
           type='text/css'>
     <link href="/styles/style.css" rel="stylesheet" type="text/css">
@@ -58,91 +57,45 @@
         </ul>
     </div>
 </nav>
-
-</div>
-
-
 <div class="container">
     <div class="row">
         <div class="col-12">
             <br>
             <br>
+            <header>
+                <h1>401</h1>
+            </header>
+            <section>
+                <p>Nie masz dostępu do zasobu.
+                </p>
+                <p>
+                    <strong>Więcej o błędzie:</strong>
+                    <br/>
+                    {{ error }}
+                </p>
+            </section>
+            <section>
+                <a href="{{ url_for("index") }}"> Przejdź do strony głównej. </a> <br>
+                <a href="{{ url_for("login") }}"> Przejdź do strony logowania. </a>
+            </section>
         </div>
     </div>
 
 
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-sm-12 col-md-6 col-lg-4 text-center">
-                <h3>Dodaj notatkę</h3>
-            </div>
-        </div>
-        <div class="row justify-content-center">
-            <div class="col-sm-12 col-md-6 col-lg-4">
-                <form id="note-form" action="{{ url_for('add_note') }}" method="post"
-                      enctype="multipart/form-data">
-
-                    <div class="form-group">
-                        <label for="title"> Tytuł </label>
-                        <input id="title" class="form-control required" type="text" name="title"/>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="note">Notatka:</label>
-                        <textarea class="form-control required" id="note" rows="5" name="note"></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="allowed_users"> Lista użytkowników, którym chcesz udostępnić plik. </label>
-                        <input id="allowed_users" class="form-control required" type="text" name="allowed_users"/>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="allow_all_users" name="allow_all_users">
-                            <label class="form-check-label" for="allow_all_users">
-                                Chcę udostępnić plik wszystkim użytkownikom.
-                            </label>
-                        </div>
-                    </div>
-
-
-                    <div class="form-group">
-                        <section class="text-danger">
-                            {% with messages = get_flashed_messages() %}
-                            {% if messages %}
-                            {% for message in messages %}
-                            <div class="alert alert-danger" role="alert">
-                                {{ message }}
-                            </div>
-                            {% endfor %}
-                            {% endif %}
-                            {% endwith %}
-                        </section>
-                    </div>
-
-
-                    <button id="button-file-form" type="submit" class="btn btn-secondary btn-block">Dodaj plik</button>
-
-                </form>
-            </div>
-        </div>
-
-    </div>
-</div>
 </div>
 
-</body>
-<footer class="text-light fixed-bottom" style="background-color: #005b5b">
+<footer class="pt-2 text-light fixed-bottom" style="background-color: #005b5b">
 
     <div class="container-fluid">
         <div class="row">
 
-            <div class="col-6 text-left">
+            <div class="col text-left">
                 <p>&copy; 2019 Jakub Korczakowski</p>
             </div>
 
-            <div class="col-6 text-right">
+            <hr class="w-100 clearfix d-md-none">
+
+            <div class="col text-right">
                 proudly powered by <img
                     src="https://icons.iconarchive.com/icons/bokehlicia/captiva/16/vim-icon.png" alt="Vim icon"
                     title="Vim"
@@ -154,4 +107,5 @@
 
 </footer>
 
+</body>
 </html>

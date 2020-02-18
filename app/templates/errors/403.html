@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-    <title>Bib-maker</title>
+    <title>Notes</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
@@ -57,49 +57,45 @@
         </ul>
     </div>
 </nav>
-
-</div>
-
-
 <div class="container">
     <div class="row">
         <div class="col-12">
             <br>
             <br>
+            <header>
+                <h1>403</h1>
+            </header>
+            <section>
+                <p>Nie masz dostępu do zasobu.
+                </p>
+                <p>
+                    <strong>Więcej o błędzie:</strong>
+                    <br/>
+                    {{ error }}
+                </p>
+            </section>
+            <section>
+                <a href="{{ url_for("index") }}"> Przejdź do strony głównej. </a> <br>
+                <a href="{{ url_for("login") }}"> Przejdź do strony logowania. </a>
+            </section>
         </div>
     </div>
 
 
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-12 text-left">
-                <h3>Strona notatki</h3>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12">
-                <br>
-                <b>Autor</b>: {{ author["firstname"] }} {{ author["lastname"] }} <br>
-                <b>Tytuł</b>: {{ note["title"] }} <br>
-                <b>Notatka</b>: <br>
-                {{ note["note"] }}
-            </div>
-        </div>
-
-    </div>
-</div>
 </div>
 
-<footer class="text-light fixed-bottom" style="background-color: #005b5b">
+<footer class="pt-2 text-light fixed-bottom" style="background-color: #005b5b">
 
     <div class="container-fluid">
         <div class="row">
 
-            <div class="col-6 text-left">
+            <div class="col text-left">
                 <p>&copy; 2019 Jakub Korczakowski</p>
             </div>
 
-            <div class="col-6 text-right">
+            <hr class="w-100 clearfix d-md-none">
+
+            <div class="col text-right">
                 proudly powered by <img
                     src="https://icons.iconarchive.com/icons/bokehlicia/captiva/16/vim-icon.png" alt="Vim icon"
                     title="Vim"

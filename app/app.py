@@ -40,6 +40,7 @@ user_service = UserService()
 note_service = NoteService()
 validator = Validator()
 
+
 @jwt.unauthorized_loader
 def my_unauthorized_loader_function(callback):
     return render_template("errors/403.html"), 403
@@ -106,7 +107,6 @@ def login():
             flash("Podano błędne dane w formularzu.")
             return render_template('login.html')
 
-
     return render_template('login.html')
 
 
@@ -146,7 +146,6 @@ def change_password():
         except LowPasswordEntropyException as e:
             flash("Nowe hasło jest za słabe.")
             return render_template('change_password.html')
-
 
     return render_template('change_password.html')
 

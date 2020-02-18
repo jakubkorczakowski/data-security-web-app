@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-    <title>Bib-maker</title>
+    <title>Notes</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
@@ -14,7 +14,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
             integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
             crossorigin="anonymous"></script>
-    <script src="/scripts/change-password.js"></script>
+    <script src="/scripts/registration.js"></script>
     <link href='https://fonts.googleapis.com/css?family=Crimson+Pro&subset=latin,latin-ext' rel='stylesheet'
           type='text/css'>
     <link href="/styles/style.css" rel="stylesheet" type="text/css">
@@ -74,27 +74,38 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-sm-12 col-md-6 col-lg-4 text-center">
-                <h3>Zaloguj się</h3>
+                <h3>Zarejestruj się</h3>
             </div>
         </div>
         <div class="row justify-content-center">
             <div class="col-sm-12 col-md-6 col-lg-4">
-                <form id="change-password-form" action="{{ url_for('change_password') }}" method="post"
+                <form id="registration-form" action="{{ url_for("register") }}" method="post"
                       enctype="multipart/form-data">
 
                     <div class="form-group">
-                        <label for="old-password">Obecne hasło</label>
-                        <input id="old-password" class="form-control required" type="password" name="old-password"/>
+                        <label for="firstname">Imię</label>
+                        <input id="firstname" class="form-control required" type="text" name="firstname"/>
                     </div>
 
                     <div class="form-group">
-                        <label for="new-password">Nowe hasło</label>
-                        <input id="new-password" class="form-control required" type="password" name="new-password"/>
+                        <label for="lastname">Nazwisko</label>
+                        <input id="lastname" class="form-control required" type="text" name="lastname"/>
                     </div>
 
                     <div class="form-group">
-                        <label for="new-repeated-password">Powtórzone nowe hasło</label>
-                        <input id="new-repeated-password" class="form-control required" type="password" name="new-repeated-password"/>
+                        <label for="username">Login</label>
+                        <input id="username" class="form-control required" type="text" name="username"/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Hasło</label>
+                        <input id="password" class="form-control required" type="password" name="password"/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="repeat-password">Powtórz hasło</label>
+                        <input id="repeat-password" class="form-control required" type="password"
+                               name="repeat-password"/>
                     </div>
 
                     <div class="form-group">
@@ -112,7 +123,7 @@
                     </div>
 
 
-                    <button id="button-login-form" type="submit" class="btn btn-secondary btn-block">Zaloguj</button>
+                    <button id="button-reg-form" type="submit" class="btn btn-secondary btn-block">Zarejestruj</button>
 
                 </form>
             </div>
@@ -145,4 +156,3 @@
 
 </body>
 </html>
-

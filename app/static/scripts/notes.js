@@ -13,12 +13,12 @@ document.addEventListener('DOMContentLoaded', function (event) {
 
     noteForm.addEventListener("submit", function (event) {
 
-        if ( !(checkAllowedUsersValidity()) || !(checkTitleAvailability())) {
+        if (!(checkAllowedUsersValidity()) || !(checkTitleAvailability())) {
             event.preventDefault();
         }
 
     });
-    
+
 
     function checkAllowedUsersValidity() {
         let allowedUsersInput = document.getElementById("allowed_users");
